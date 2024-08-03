@@ -9,7 +9,6 @@ import (
 )
 
 func home(w http.ResponseWriter, r *http.Request) {
-	print("heree")
 	w.Header().Add("Server", "Go")
 
 	files := []string{
