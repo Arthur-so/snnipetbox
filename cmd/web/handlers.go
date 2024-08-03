@@ -1,18 +1,20 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
-	"fmt"
 	"net/http"
 	"strconv"
 )
 
 func home(w http.ResponseWriter, r *http.Request) {
+	print("heree")
 	w.Header().Add("Server", "Go")
 
 	files := []string{
 		"./ui/html/base.tmpl.html",
+		"./ui/html/partials/nav.tmpl.html",
 		"./ui/html/pages/home.tmpl.html",
 	}
 
@@ -21,11 +23,13 @@ func home(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
 	}
 
-	err = ts.Execute(w, nil)
+	err = ts.ExecuteTemplate(w, "base", nil)
 	if err != nil {
 		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 }
 
